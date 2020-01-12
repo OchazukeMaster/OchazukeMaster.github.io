@@ -61,7 +61,7 @@
 
   function remote_list() {
     $.ajax({
-      url: "https://OchazukeMaster.github.io/tablet/contents/list.json" + "?time=" + Date.now(),
+      url: "https://OchazukeMaster.github.io/mmm_english/contents/list.json" + "?time=" + Date.now(),
       type: "GET",
       dataType: "json"
     }).done(parse_json).fail(json_fail);
