@@ -300,10 +300,17 @@
   object-position: 85% 100%;
   border: 1px solid black;
 }
+
+/* パソコンで見たときは"pc"のclassがついた画像が表示される */
+.screen { position: absolute; width: 600px; }
+/* スマートフォンで見たときは"sp"のclassがついた画像が表示される */
+@media only screen and (max-width: 750px) {
+.screen { position: absolute; width: 100%; }
+}
 </style>
 
 <body class="wf-nicomoji">
-  <div style="position: absolute; width: 600px;">
+  <div class="screen">
     <div class="shard modal">
       <div class="content center">
         <p>
