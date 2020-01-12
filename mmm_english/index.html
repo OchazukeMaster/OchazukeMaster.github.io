@@ -17,6 +17,9 @@
     $(document).on("click", ".shard.next", next_content);
     $(document).on("click", ".modal", function() { $(".modal").hide(); });
     $(document).on("click", ".help", function() { $(".modal").show(); });
+    $(document).on("click", "#youtube_link", function() {
+      if(confirm("Youtubeに遷移し、動画が再生されます。\nよろしいですか？")) location.href="https://www.youtube.com/watch?v=SU8ZenuzRx0"; return false;
+    });
   });
 
   function init() {
@@ -347,8 +350,8 @@
           <p>
             元ネタを作ったお方：<br>
             もこ田めめめ (<a href="https://vrlive.party/member/">アップランド公式サイト</a>)<br>
-            参考動画(Youtube) <a href="https://www.youtube.com/watch?v=SU8ZenuzRx0"><br>
-            【勉強】冬休みは終わった。朝勉して勘を取り戻せ。</a><br>
+            参考動画(Youtube)<br>
+            <a id="youtube_link" href="javascript:void(0);">【勉強】冬休みは終わった。朝勉して勘を取り戻せ。</a><br>
             ※画像は<a href="https://twitter.com/mokomeme_ch">もこ田めめめさん 公式Twitter</a>の<br>
             アイコン、ヘッダーを参照しています。
           </p>
