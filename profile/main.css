@@ -44,8 +44,8 @@
   background: rgba(255, 150, 50, .6);
   padding: 10px 80px 10px 80px;
   border-radius: 100px;
-  border-left: solid 5px rgba(255, 150, 50, .9);
-  border-bottom: solid 5px rgba(255, 150, 50, .9);
+  border-left: solid 8px rgba(255, 150, 50, .9);
+  border-bottom: solid 8px rgba(255, 150, 50, .9);
 }
 
 h2 {
@@ -53,21 +53,22 @@ h2 {
   background: rgba(255, 150, 50, .6);
   padding: 10px 30px 10px 20px;
   border-radius: 100px 100px 100px 100px;
-  border-left: solid 5px rgba(255, 150, 50, .9);
-  border-bottom: solid 5px rgba(255, 150, 50, .9);
+  border-left: solid 8px rgba(255, 150, 50, .9);
+  border-bottom: solid 8px rgba(255, 150, 50, .9);
 }
 
 .label {
-  width: 110px;
+  width: 120px;
   display: inline-block;
 }
 
 .hobby .label {
-  width: 120px;
+  width: 140px;
 }
 
 body {
   font-family: "M PLUS 1p";
+  font-size: 18px;
 }
 
 li {
