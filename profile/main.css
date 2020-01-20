@@ -67,9 +67,6 @@ h2 {
 }
 
 .text {
-  display: flex;
-  flex-direciton: row;
-  flex-wrap: wrap;
 }
 
 body {
