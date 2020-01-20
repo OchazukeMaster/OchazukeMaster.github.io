@@ -67,14 +67,9 @@ h2 {
 }
 
 .text {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: calc(100% - 120px);
 }
 
 .hobby .text {
-  width: calc(100% - 140px);
 }
 
 body {
