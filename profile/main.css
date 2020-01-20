@@ -1,0 +1,81 @@
+.partial {
+  margin: 20px 10% 40px 10%;
+  padding:  0px 5% 10px 5%;
+  box-shadow: 0px 0px 0px 15px #d6ebff;
+  background: #d6ebff;
+  border: dashed 4px lightblue;
+  color:  black;
+}
+
+.partial .icon {
+  text-align: center;
+  border-radius:  10px;
+}
+
+.partial .icon img {
+  border-radius:  20%;
+  border: dashed 4px lightblue;
+  padding: 10px 10px 10px 10px;
+  background: #d6ebff;
+  height: 200px;
+  width: 200px;
+}
+
+.background {
+  width:100%;
+  height:100%;
+  background-color : #d7ffff;
+  background-image:
+    repeating-linear-gradient( 0deg,rgba(95, 175, 255, 0.6) 0px 20px, transparent 20px 48px),
+    repeating-linear-gradient( 90deg,rgba(95, 175, 255, 0.6) 0px 20px,  transparent 20px 48px);
+}
+
+.title {
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+  margin: 0px 0px 40px 0px;
+  font-size: large;
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: solid 12px rgba(0, 0, 0, 0.3);
+}
+
+.title h1 {
+  display: inline-block;
+  background: rgba(255, 150, 50, .6);
+  padding: 10px 80px 10px 80px;
+  border-radius: 100px;
+  border-left: solid 5px rgba(255, 150, 50, .9);
+  border-bottom: solid 5px rgba(255, 150, 50, .9);
+}
+
+h2 {
+  display: inline-block;
+  background: rgba(255, 150, 50, .6);
+  padding: 10px 30px 10px 20px;
+  border-radius: 100px 100px 100px 100px;
+  border-left: solid 5px rgba(255, 150, 50, .9);
+  border-bottom: solid 5px rgba(255, 150, 50, .9);
+}
+
+.label {
+  width: 110px;
+  display: inline-block;
+}
+
+.hobby .label {
+  width: 120px;
+}
+
+body {
+  font-family: "M PLUS 1p";
+}
+
+li {
+  padding: 3px 0px 3px 0px;
+}
+
+.timestamp {
+  border-bottom: solid 1px black;
+  display: inline-block;
+}
+
