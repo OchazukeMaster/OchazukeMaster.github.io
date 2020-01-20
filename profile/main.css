@@ -73,6 +73,11 @@ h2 {
   -webkit-box-direction: normal;
           flex-direction: row;
   flex-wrap: wrap;
+  width: calc(100% - 120px);
+}
+
+.hobby .text {
+  width: calc(100% - 140px);
 }
 
 body {
