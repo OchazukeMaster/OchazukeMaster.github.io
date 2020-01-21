@@ -62,13 +62,9 @@ h2 {
   text-align: left;
 }
 
-table, tr, th, td {
-  border: 1px solid black;
-}
-
 th {
   text-align: left;
-  width: 120px;
+  width: 140px;
   white-space: nowrap;
   vertical-align: top;
 }
