@@ -12,7 +12,7 @@
   }
 
   #keywords, #by {
-    width: 64em;
+    width: 48em;
   }
 </style>
 
@@ -66,9 +66,11 @@
   }
   function keywordsSuggest() {
     kw = document.querySelector("#keywords")
+    suggestHash = document.querySelector("#keywordsSuggestHash")
     suggestName = document.querySelector("#keywordsSuggestName")
     suggestFA = document.querySelector("#keywordsSuggestFA")
-    kw.value = [...new Set((kw.value + " " + suggestName.value + " " + suggestFA.value).split(" "))].join(" ");
+    kw.value = [...new Set((kw.value + " " + suggestHash.value + " " + suggestName.value + " " + suggestFA.value).split(" "))].join(" ");
+    suggestHash.value = null
     suggestName.value = null
     suggestFA.value = null
     eventKick(keywords, "input");
@@ -98,6 +100,7 @@
 
     document.querySelector("#keywords").addEventListener("input", () => updateLink(createLink()));
     document.querySelector("#keywordsReset").addEventListener("click", () => setValue(document.querySelector("#keywords"), null));
+    document.querySelector("#keywordsSuggestHash").addEventListener("change", () => keywordsSuggest());
     document.querySelector("#keywordsSuggestName").addEventListener("change", () => keywordsSuggest());
     document.querySelector("#keywordsSuggestFA").addEventListener("change", () => keywordsSuggest());
     document.querySelector("#fromdate").addEventListener("input", () => updateLink(createLink()));
@@ -120,7 +123,21 @@
     <input id="keywords"></input>
     <br>
     <button id="keywordsReset">Reset</button>
-    <input id="keywordsSuggestName" autocomplete="on" list="names" placeholder="▼名前タグ"></input>
+    <input id="keywordsSuggestHash" autocomplete="on" list="hashtags" placeholder="▼ハッシュタグ"></input>
+    <datalist id="hashtags">
+      <option value="#電脳少女シロ"></option>
+      <option value="#もこ田めめめ"></option>
+      <option value="#ヤマトイオリ"></option>
+      <option value="#花京院ちえり"></option>
+      <option value="#カルロピノ"></option>
+      <option value="#神楽すず"></option>
+      <option value="#メリーミルク"></option>
+      <option value="#リクム"></option>
+      <option value="#七星みりり"></option>
+      <option value="#ルルン・ルルリカ"></option>
+      <option value="#ばあちゃる"></option>
+    </datalist>
+    <input id="keywordsSuggestName" autocomplete="on" list="names" placeholder="▼名前"></input>
     <datalist id="names">
       <option value="電脳少女シロ"></option>
       <option value="もこ田めめめ"></option>
