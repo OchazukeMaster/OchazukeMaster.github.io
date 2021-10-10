@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>TweeterHistory</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+  * {
+    background-color: black;
+    color: white;
+  }
+</style>
+
+<script>
+  TWITTER="https://twitter.com/search?q=";
+  TZ="JST";
+  function createLink(
+    keywords=document.querySelector("#keywords").value,
+    fromdate=document.querySelector("#fromdate").value,
+    fromtime=document.querySelector("#fromtime").value,
+    todate=document.querySelector("#todate").value,
+    totime=document.querySelector("#totime").value,
+    by=document.querySelector("#by").value
+  ) {
+    by = by ? `from:${by}` : ""
+    return `${keywords} ${by} since:${fromdate}_${fromtime}:00_${TZ} until:${todate}_${totime}:59_${TZ}&src=query&f=live`.replace(/ +/g," ");
+  }
+  function encode(url) {
+    return encodeURI(url).replace(/#/g, "%23")
+  }
+  function updateLink(url) {
+    document.querySelector("#link").href=encode(`${TWITTER}${url}`);
+    document.querySelector("#link").text=encode(url);
+  }
+  function toDate(y, m, d) {
+    return `${y}-${m}-${d}`;
+  }
+  function toTime(h, m) {
+    return `${h}:${m}`;
+  }
+  function dateArray(date) {
+    return date.toLocaleString().replace(/[^0-9]/g, ",").split(",")
+  }
+  function defaultDate() {
+    let array = dateArray(new Date());
+    return `${array[0]}-${array[1]}-${array[2]}`;
+  }
+  function defaultTime() {
+    let array = dateArray(new Date());
+    return `${array[3]}:${array[4]}`;
+  }
+  window.onload = function() {
+    let now = new Date();
+    document.querySelector("#fromdate").value=defaultDate();
+    document.querySelector("#fromtime").value="00:00";
+    document.querySelector("#todate").value=defaultDate();
+    document.querySelector("#totime").value="23:59";
+
+    document.querySelector("#keywords").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#fromdate").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#fromtime").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#todate").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#totime").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#by").addEventListener("input", () => updateLink(createLink()));
+    updateLink(createLink());
+  }
+</script>
+
+<body>
+  <div>
+    <label>KEYWORDS:</label>
+    <input id="keywords"></input>
+  </div>
+  <div>
+    <label>FROM:</label>
+    <input id="fromdate" type="date"></input>
+    <input id="fromtime" type="time"></input>
+  </div>
+  <div>
+    <label>TO:</label>
+    <input id="todate" type="date"></input>
+    <input id="totime" type="time"></input>
+  </div>
+  <div>
+    <label>BY:</label>
+    <input id="by" autocomplete="on" list="streamers"></input>
+    <datalist id="streamers">
+    <option value="@SIROyoutuber">電脳少女シロ</option>
+    <option value="@mokomeme_ch">もこ田めめめ</option>
+    <option value="@YamatoIori">ヤマトイオリ</option>
+    <option value="@chieri_kakyoin">花京院ちえり</option>
+    <option value="@carro_pino">カルロピノ</option>
+    <option value="@kagura_suzu">神楽すず</option>
+    <option value="@milk_merry_">メリーミルク</option>
+    <option value="@Rikumu_VTuber">リクム</option>
+    <option value="@Milily_VTuber">七星みりり</option>
+    <option value="@Rururica_VTuber">ルルン・ルルリカ</option>
+    <option value="@BAyoutuber">ばあちゃる</option>
+    </datalist>
+  </div>
+  <div id="result">
+    <label>LINK:</label>
+    <a id="link" href="https://www.google.com" target="_blank">LINK</a>
+  </div>
+</body>
+</html>
