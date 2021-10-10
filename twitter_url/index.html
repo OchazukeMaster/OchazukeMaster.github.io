@@ -50,7 +50,8 @@
     return `${words} ${since} ${until}&src=typed_query${mode}`.replace(/ +/g," ");;
   }
   function encode(url) {
-    return encodeURI(url).replace(/#/g, "%23");
+    // return encodeURI(url).replace(/#/g, "%23");
+    return url.replace(/#/g, "%23");
   }
   function updateLink(url) {
     document.querySelector("#link").href=encode(`${TWITTER}${url}`);
