@@ -10,6 +10,10 @@
     background-color: black;
     color: white;
   }
+
+  #keywords, #by {
+    width: 64em;
+  }
 </style>
 
 <script>
@@ -17,21 +21,31 @@
   TZ="JST";
   function createLink(
     keywords=document.querySelector("#keywords").value,
-    fromdate=document.querySelector("#fromdate").value,
-    fromtime=document.querySelector("#fromtime").value,
-    todate=document.querySelector("#todate").value,
-    totime=document.querySelector("#totime").value,
-    by=document.querySelector("#by").value
+    fromdate=(document.querySelector("#fromenable").checked ? document.querySelector("#fromdate").value : null),
+    fromtime=(document.querySelector("#fromenable").checked ? document.querySelector("#fromtime").value : null),
+    todate=(document.querySelector("#toenable").checked ? document.querySelector("#todate").value : null),
+    totime=(document.querySelector("#toenable").checked ? document.querySelector("#totime").value : null),
+    by=document.querySelector("#by").value,
+    mode=document.querySelector("#mode").value,
   ) {
-    by = by ? `from:${by}` : ""
-    return `${keywords} ${by} since:${fromdate}_${fromtime}:00_${TZ} until:${todate}_${totime}:59_${TZ}&src=query&f=live`.replace(/ +/g," ");
+    keywords=keywords.replace(/ +/g, " ").replace(/(^ | $)/g, "");
+    keywords=keywords.includes(" ") ? keywords.replace(/ /g, " AND ").replace(/^/,"(").replace(/$/, ")") : keywords;
+    by=by.replace(/ +/g, " ").replace(/(^ | $)/g, "");
+    by= by ? by.replace(/(^| )/g, " from:").replace(/^ +/, "") : "";
+    by=by.includes(" ") ? by.replace(/ /g, " OR ").replace(/^/,"(").replace(/$/, ")") : by;
+    words=`${keywords} ${by}`;
+
+    mode = mode ? `&f=${mode}` : "";
+    since = fromdate ? `since:${fromdate}_${fromtime}:00_${TZ}` : "";
+    until = todate ? `until:${todate}_${totime}:00_${TZ}` : "";
+    return `${words} ${since} ${until}&src=typed_query${mode}`.replace(/ +/g," ");;
   }
   function encode(url) {
-    return encodeURI(url).replace(/#/g, "%23")
+    return encodeURI(url).replace(/#/g, "%23");
   }
   function updateLink(url) {
     document.querySelector("#link").href=encode(`${TWITTER}${url}`);
-    document.querySelector("#link").text=encode(url);
+    document.querySelector("#link").text=encode(`${TWITTER}${url}`);
   }
   function toDate(y, m, d) {
     return `${y}-${m}-${d}`;
@@ -50,6 +64,31 @@
     let array = dateArray(new Date());
     return `${array[3]}:${array[4]}`;
   }
+  function keywordsSuggest() {
+    kw = document.querySelector("#keywords")
+    suggestName = document.querySelector("#keywordsSuggestName")
+    suggestFA = document.querySelector("#keywordsSuggestFA")
+    kw.value = [...new Set((kw.value + " " + suggestName.value + " " + suggestFA.value).split(" "))].join(" ");
+    suggestName.value = null
+    suggestFA.value = null
+    eventKick(keywords, "input");
+  }
+  function bySuggest() {
+    by = document.querySelector("#by")
+    suggest = document.querySelector("#bySuggest")
+    by.value = [...new Set((by.value + " " + suggest.value).split(" "))].join(" ");
+    suggest.value = null;
+    eventKick(by, "input");
+  }
+  function setValue(elm, value) {
+    elm.value = value;
+    eventKick(elm, "input");
+  }
+  function eventKick(elm, type) {
+    evt = document.createEvent("Event");
+    evt.initEvent(type, true, true);
+    ret = elm.dispatchEvent(evt);
+  }
   window.onload = function() {
     let now = new Date();
     document.querySelector("#fromdate").value=defaultDate();
@@ -58,11 +97,19 @@
     document.querySelector("#totime").value="23:59";
 
     document.querySelector("#keywords").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#keywordsReset").addEventListener("click", () => setValue(document.querySelector("#keywords"), null));
+    document.querySelector("#keywordsSuggestName").addEventListener("change", () => keywordsSuggest());
+    document.querySelector("#keywordsSuggestFA").addEventListener("change", () => keywordsSuggest());
     document.querySelector("#fromdate").addEventListener("input", () => updateLink(createLink()));
     document.querySelector("#fromtime").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#fromenable").addEventListener("change", () => updateLink(createLink()));
     document.querySelector("#todate").addEventListener("input", () => updateLink(createLink()));
     document.querySelector("#totime").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#toenable").addEventListener("change", () => updateLink(createLink()));
     document.querySelector("#by").addEventListener("input", () => updateLink(createLink()));
+    document.querySelector("#byReset").addEventListener("click", () => setValue(document.querySelector("#by"), null));
+    document.querySelector("#bySuggest").addEventListener("change", () => bySuggest());
+    document.querySelector("#mode").addEventListener("change", () => updateLink(createLink()));
     updateLink(createLink());
   }
 </script>
@@ -71,33 +118,78 @@
   <div>
     <label>KEYWORDS:</label>
     <input id="keywords"></input>
+    <br>
+    <button id="keywordsReset">Reset</button>
+    <input id="keywordsSuggestName" autocomplete="on" list="names" placeholder="▼名前タグ"></input>
+    <datalist id="names">
+      <option value="電脳少女シロ"></option>
+      <option value="もこ田めめめ"></option>
+      <option value="ヤマトイオリ"></option>
+      <option value="花京院ちえり"></option>
+      <option value="カルロピノ"></option>
+      <option value="神楽すず"></option>
+      <option value="メリーミルク"></option>
+      <option value="リクム"></option>
+      <option value="七星みりり"></option>
+      <option value="ルルン・ルルリカ"></option>
+      <option value="ばあちゃる"></option>
+    </datalist>
+    <input id="keywordsSuggestFA" autocomplete="on" list="FA" placeholder="▼FAタグ"></input>
+    <datalist id="FA">
+      <option value="#SiroArt"></option>
+      <option value="#めめアート"></option>
+      <option value="#イオリの森美術館"></option>
+      <option value="#ちぇり絵"></option>
+      <option value="#ピノの自由帳"></option>
+      <option value="#すずあーと"></option>
+      <option value="#Merry_at"></option>
+      <option value="#夢境画廊"></option>
+      <option value="#ななみりうむ"></option>
+      <option value="#ルールル美術館"></option>
+      <option value="#ばあちゃる"></option>
+    </datalist>
   </div>
   <div>
     <label>FROM:</label>
     <input id="fromdate" type="date"></input>
     <input id="fromtime" type="time"></input>
+    <input id="fromenable" type="checkbox" checked>有効</input>
   </div>
   <div>
     <label>TO:</label>
     <input id="todate" type="date"></input>
     <input id="totime" type="time"></input>
+    <input id="toenable" type="checkbox" checked>有効</input>
   </div>
   <div>
     <label>BY:</label>
-    <input id="by" autocomplete="on" list="streamers"></input>
+    <input id="by"></input>
+    <br>
+    <button id="byReset">Reset</button>
+    <input id="bySuggest" autocomplete="on" list="streamers" placeholder="▼選択"></input>
     <datalist id="streamers">
-    <option value="@SIROyoutuber">電脳少女シロ</option>
-    <option value="@mokomeme_ch">もこ田めめめ</option>
-    <option value="@YamatoIori">ヤマトイオリ</option>
-    <option value="@chieri_kakyoin">花京院ちえり</option>
-    <option value="@carro_pino">カルロピノ</option>
-    <option value="@kagura_suzu">神楽すず</option>
-    <option value="@milk_merry_">メリーミルク</option>
-    <option value="@Rikumu_VTuber">リクム</option>
-    <option value="@Milily_VTuber">七星みりり</option>
-    <option value="@Rururica_VTuber">ルルン・ルルリカ</option>
-    <option value="@BAyoutuber">ばあちゃる</option>
+    <option value="SIROyoutuber">電脳少女シロ</option>
+    <option value="mokomeme_ch">もこ田めめめ</option>
+    <option value="YamatoIori">ヤマトイオリ</option>
+    <option value="chieri_kakyoin">花京院ちえり</option>
+    <option value="carro_pino">カルロピノ</option>
+    <option value="kagura_suzu">神楽すず</option>
+    <option value="milk_merry_">メリーミルク</option>
+    <option value="Rikumu_VTuber">リクム</option>
+    <option value="Milily_VTuber">七星みりり</option>
+    <option value="Rururica_VTuber">ルルン・ルルリカ</option>
+    <option value="BAyoutuber">ばあちゃる</option>
     </datalist>
+  </div>
+  <div>
+    <label>MODE</label>
+    <select id="mode">
+      <option value="">話題のツイート</option>
+      <option value="live" selected>最新</option>
+      <option value="user">アカウント</option>
+      <option value="image">画像</option>
+      <option value="video">動画</option>
+    </select>
   </div>
   <div id="result">
     <label>LINK:</label>
